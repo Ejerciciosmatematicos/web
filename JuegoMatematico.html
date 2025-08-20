@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío Matemático</title>
+
+    <!-- Fuente desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Estilos CSS -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #000;   /* Fondo negro */
+            color: #fff;              /* Texto blanco */
+        }
+
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        input {
+            background-color: #222;
+            color: #fff;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        #resultado {
+            font-weight: bold;
+        }
+
+        #puntaje {
+            font-size: 20px;
+            color: #ffd700;  /* Dorado */
+        }
+
+        #dificultad {
+            color: #ff6f61;
+        }
+    </style>
+</head>
+<body>
+    <h1>Desafío Matemático</h1>
+    <p id="pregunta"></p>
+    <input type="number" id="respuesta" placeholder="Escribe tu respuesta">
+    <button onclick="verificar()">Verificar</button>
+    <p id="resultado"></p>
+    <p>Puntaje: <span id="puntaje">0</span></p>
+    <p>Dificultad: <span id="dificultad">Fácil</span></p>
+
+    <!-- Script JavaScript -->
+    <script>
+        let puntaje = 0;
+        let dificultad = 10;  // Dificultad inicial (números hasta 10)
+        let respuestasCorrectas = 0;
+
+        function nuevaPregunta() {
+            const num1 = Math.floor(Math.random() * dificultad);
+            const num2 = Math.floor(Math.random() * dificultad);
+            document.getElementById("pregunta").innerText = `¿Cuánto es ${num1} + ${num2}?`;
+            return num1 + num2; // Retorna el resultado correcto para verificar
+        }
+
+        let respuestaCorrecta = nuevaPregunta();
+
+        function verificar() {
+            const respuestaJugador = parseInt(document.getElementById("respuesta").value);
+            if (respuestaJugador === respuestaCorrecta) {
+                puntaje++;
+                respuestasCorrectas++;
+                document.getElementById("resultado").innerText = "¡Correcto!";
+                ajustarDificultad();
+            } else {
+                puntaje = Math.max(0, puntaje - 1);  // No dejar el puntaje negativo
+                respuestasCorrectas = 0;
+                document.getElementById("resultado").innerText = "Incorrecto, intenta de nuevo.";
+            }
+
+            document.getElementById("puntaje").innerText = puntaje;
+            document.getElementById("respuesta").value = '';  // Limpiar campo de respuesta
+            respuestaCorrecta = nuevaPregunta();
+        }
+
+        function ajustarDificultad() {
+            if (respuestasCorrectas >= 3) {
+                dificultad += 5;
+                document.getElementById("dificultad").innerText = `Media`;
+            }
+            if (respuestasCorrectas >= 6) {
+                dificultad += 5;
+                document.getElementById("dificultad").innerText = `Alta`;
+            }
+            if (respuestasCorrectas >= 10) {
+                document.getElementById("dificultad").innerText = `Muy Alta`;
+            }
+        }
+
+        // Iniciar juego con la primera pregunta
+        nuevaPregunta();
+    </script>
+</body>
+</html>
